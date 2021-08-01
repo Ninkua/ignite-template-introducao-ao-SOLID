@@ -1,0 +1,177 @@
+{
+    "openapi": "3.0.0",
+    "info":{
+        "title": "RentalLX Documentation",
+        "description": "This is api rest",
+        "version": "1.0.0",
+        "contact":{
+            "email": "Mateus@gmail.com"
+        }
+    },
+    "paths":{
+        "/users":{
+            "post":{
+                "tags": ["users"],
+                "sumary": "Create a new user",
+                "description": "Create a new user",
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/User"
+                            },
+                            "example":{
+                                "name": "UserTest",
+                                "email": "User@Test.com"
+                            }
+                                
+
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{
+                        "description": "User created"
+                    },
+                    "500":{
+                        "description": "User Already Exists"
+                    }
+
+                }
+            },
+            "get":{
+                "tags": ["users"],
+                "sumary": "Return all users",
+                "description": "Return all users",
+                "parameters":{
+                    "in": "header",
+                    "name": "user_id",
+                    "schema": {
+                        "type": "string"
+                    },
+                    "required": true
+                },
+                "responses":{
+                    "200":{
+                        "description": "Sucess",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "array",
+                                    "items":{
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description": "Acess Denied"
+                    }
+                }
+            }
+        },
+        "/users/{user_id}":{
+            "get":{
+                "tags": ["users"],
+                "sumary": "Show profile user",
+                "description": "Show profile user",
+                "parameters": {
+                        "in": "path", 
+                        "name": "user_id",
+                        "required": true
+                },
+
+                "responses":{
+                    "200":{
+                        "description": "Sucess",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "items":{
+                                        "type":"object",
+                                        "properties":{
+                                            "id":{
+                                                "type": "uuid"
+                                            },
+                                            "name":{
+                                                "type": "string"
+                                            },
+                                            "admin":{
+                                                "type": "boolean"
+                                            },
+                                            "email":{
+                                                "type": "string"
+                                            },
+                                            "created_at":{
+                                                "type": "Date"
+                                            },
+                                            "updated_at": "Date"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500":{
+                        "description": "Acess Denied"
+                    }
+                }
+            }
+        },
+        "/users/{user_id}/admin":{
+            "patch":{
+                "tags": ["users"],
+                "sumary": "Turn user admin",
+                "description": "Turn user admin",
+                "requestParams":{
+                    "type": "object",
+                    "properties":{
+                        "user_id":{
+                        "type": "string"
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description": "Sucess"
+                    },
+                    "404":{
+                        "description": "User not Found"
+                    }
+                }
+            }
+        }
+
+
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "type": "object",
+                    "properties": {
+                        "id":{
+                            "type": "string"
+                        },
+                        "name":{
+                            "type": "string"
+                        },
+                        "email":{
+                            "type": "string"
+                        },
+                        "admin": {
+                            "type":"boolean"
+                        },
+                        "created_at": {
+                            "type": "Date"
+                        },
+                        "updated_at": {
+                            "type": "Date"
+                        }
+                }
+            }
+        }
+    }
+
+}
